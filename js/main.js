@@ -111,8 +111,8 @@
   var typedEl = $("#typed");
   var words = ["CBSE", "ICSE", "UP Board", "IIT JEE", "CUET", "Class 5 to 12"];
   if (typedEl && !reduceMotion) {
-    var wi = 0, ci = 0, deleting = false;
-    (function tick() {
+    var wi = 0, ci = words[0].length, deleting = true;
+    setTimeout(function tick() {
       var word = words[wi];
       typedEl.textContent = word.slice(0, ci);
       var delay = deleting ? 45 : 95;
@@ -120,18 +120,17 @@
       else if (deleting && ci === 0) { deleting = false; wi = (wi + 1) % words.length; delay = 350; }
       ci += deleting ? -1 : 1;
       setTimeout(tick, delay);
-    })();
+    }, 1800);
   }
 
-  /* ---------- Card tilt (mouse only) ---------- */
-  if (!reduceMotion && window.matchMedia("(hover: hover)").matches) {
-    $$(".tilt").forEach(function (card) {
-      card.addEventListener("mousemove", function (e) {
-        var r = card.getBoundingClientRect();
-        var x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
-        card.style.transform = "perspective(900px) rotateY(" + (x * 6) + "deg) rotateX(" + (-y * 6) + "deg) translateY(-4px)";
+  /* ---------- Spotlight hover glow on cards ---------- */
+  if (window.matchMedia("(hover: hover)").matches) {
+    $$(".spot").forEach(function (el) {
+      el.addEventListener("mousemove", function (e) {
+        var r = el.getBoundingClientRect();
+        el.style.setProperty("--mx", (e.clientX - r.left) + "px");
+        el.style.setProperty("--my", (e.clientY - r.top) + "px");
       });
-      card.addEventListener("mouseleave", function () { card.style.transform = ""; });
     });
   }
 
@@ -206,6 +205,14 @@
     void result.offsetWidth;
   }
   render();
+  var qb = $("#quickbar");
+  if (qb) qb.addEventListener("submit", function (e) {
+    e.preventDefault();
+    state.cls = +$("#qClass").value; state.board = $("#qBoard").value;
+    if (state.cls >= 11 && state.stream === "Commerce") state.stream = "Science (PCM)";
+    render();
+    $("#finder").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+  });
   $$("[data-pick]").forEach(function (a) {
     a.addEventListener("click", function () { state.cls = +a.getAttribute("data-pick"); if (state.cls === 11) state.stream = "Commerce"; else if (state.cls === 12) state.stream = "Science (PCM)"; render(); });
   });

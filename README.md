@@ -10,7 +10,7 @@ Pure HTML + CSS + JavaScript. No build step, no frameworks. Open `index.html` in
 - `robots.txt`, `sitemap.xml` - replace `www.example.com` with the real domain
 
 ## Features
-Sticky header, mobile menu, scroll progress bar, animated hero, counters, marquee, course filter,
+Floating glass header, mobile menu and bottom action bar, scroll progress bar, animated hero, counters, marquee, course filter,
 Batch Finder (class + board + stream), IIT JEE / CUET roadmap, batch timings, faculty, 5-question quiz
 with confetti, testimonials slider, admission steps, FAQ, enquiry form that opens WhatsApp with details,
 call and WhatsApp floating buttons, back-to-top, reduced-motion support, fully responsive.
